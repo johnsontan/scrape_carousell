@@ -1,5 +1,5 @@
 # scrape_carousell
-A program to scrape Carousell Singapore for the cheapest item.
+A telegram bot to scrape Carousell Singapore for the cheapest item.
 
 <!-- PROJECT LOGO -->
 <br />
@@ -23,13 +23,7 @@ A program to scrape Carousell Singapore for the cheapest item.
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
-
+A easy and simple project using beautifulsoup4, selenium and telegram bot to scrape Carousell and return the cheapest item. The program has two functions, search and scrape carousell once to return the cheapest item or set an interval of 30 mins to return the latest listings. 
 
 
 
@@ -37,19 +31,27 @@ Here's a blank template to get started:
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/johnsontan/scrape_carousell.git
    ```
-2. Install NPM packages
+2. Install requirements.txt
    ```sh
-   npm install
+   pip install -r requirements.txt 
+   ```
+3. Add Telegram bot API key in Constant.py
+   ```sh
+   API_KEY = ''
+   ```
+4. Start the bot
+   ```sh
+   py .\main.py
    ```
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+Johnson Tan - [@twitter_handle](https://twitter.com/Johnson22971547) - email johnsonstark@protonmail.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/johnsontan/scrape_carousell](https://github.com/johnsontan/scrape_carousell)
 
 
 
