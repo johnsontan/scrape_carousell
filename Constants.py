@@ -1,4 +1,4 @@
-API_KEY = '1878033343:AAGjasdecnlxWnXEdxlUxqh9q-8lww151Iw'
+API_KEY = ''
 
 #Carousell place holder
 #search required "?" at the end 
