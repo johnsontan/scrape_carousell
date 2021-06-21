@@ -49,7 +49,7 @@ A easy and simple project using beautifulsoup4, selenium and telegram bot to scr
 <!-- CONTACT -->
 ## Contact
 
-Johnson Tan - [email_handle](johnsonstark@protonmail.com)
+Johnson Tan - [email](johnsonstark@protonmail.com)
 
 Project Link: [https://github.com/johnsontan/scrape_carousell](https://github.com/johnsontan/scrape_carousell)
 
