@@ -40,9 +40,10 @@ def filter_by_date(jsonfile):
     for k, v in keyz.items():
       if k == "listingdate":
         listdate = str(v)
-        if "minute" in listdate:
+        if "minutes" in listdate:
           listdate = listdate.split(" ")
-          if int(listdate[0]) <= 30:
+          #change the interval validation
+          if int(listdate[0]) <= 45:
             link = keyz.get("itemlink")
             itemdes = keyz.get("listingdate") + " | "
             itemdes += keyz.get("itemprice")

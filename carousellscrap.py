@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup as bs
 import time, json
 from newegg import newegg_avg_price
 import Constants as cons
+from lxml.html import fromstring
+from functions import reconstruct_posted_ago, reconstruct_seller_name
 
 def LoadAllListings(driver):
         counter = 0
@@ -79,7 +81,6 @@ def find_items(item):
     if currentitem.startswith("/autocrawl"):
             currentitem = currentitem[11:]
     print(currentitem)
-    print(item)
     #find the item name
     searchitem = str(currentitem).split("|")
     if len(searchitem) != 0:
@@ -88,7 +89,7 @@ def find_items(item):
     print("scraping carousell..")
     option = Options()
     option.headless = True
-    driver = webdriver.Firefox(options=option)
+    driver = webdriver.Firefox()
 
     #construct item
     print("Item: " + searchitem)
@@ -105,41 +106,75 @@ def find_items(item):
     element = driver.find_element_by_id("root")
     html = driver.execute_script("return arguments[0].outerHTML;", element)
 
+    #getting all the attributes vales and form an array
     context = bs(html, 'lxml')
-    alldiv = context.findAll("div", class_='D_oi')
+    context2 = fromstring(html)
+    context2 = context2.xpath("//div/div[3]/div/div[2]/main/div/div[1]/div/div")
+    for ct2 in context2:
+        sellerNameA = ct2.xpath(cons.XPSELLERNAME)
+        listingDataA = ct2.xpath(cons.XPLISTINGDATE)
+        itemNameA = ct2.xpath(cons.XPITEMNAME)
+        itemPriceA = ct2.xpath(cons.XPITEMPRICE)
+        itemLinkA1 = ct2.xpath(cons.XPITEMLINK)
+    itemLinkA2 = []
+    for ila in itemLinkA1:
+        if (str(ila).startswith("/p/")):
+            itemLinkA2.append(ila)
+
+    listingDataA = reconstruct_posted_ago(sellerNameA, listingDataA)
+    sellerNameA = reconstruct_seller_name(sellerNameA)
+    
+    allItemsA = []
+    if(len(sellerNameA) == len(listingDataA) == len(itemNameA) == len(itemPriceA) == len(itemLinkA2)):
+        tempLength = len(sellerNameA)
+        tempArray = []
+        count = 0
+        while count < tempLength:
+            tempArray.append(sellerNameA[count])
+            tempArray.append(listingDataA[count])
+            tempArray.append(itemNameA[count])
+            tempArray.append(itemPriceA[count])
+            tempArray.append(itemLinkA2[count])
+            allItemsA.append(tempArray)
+            tempArray = []
+            count += 1
+
+        
+
+    #alldiv = context.findAll("div", class_='D_vT')
     jsonChild = []
     container = {}
-    for keys in alldiv:
+    for keys in allItemsA:
         #seller name
-        sellername= keys.select(".D_eo.D_eB.D_ea")
+        sellername= keys[0]
         #print(sellername)
         if len(sellername) != 0:
-            nameout =sellername[0].get_text()
+            nameout = sellername
         
         #listing date
-        listingdate = keys.select(".D_oC")
+        listingdate = keys[1]
         #print(listingdate)
         if len(listingdate) != 0:
-            listout = listingdate[0].get_text()
+            listout = listingdate
         
         #itemname
-        itemname = keys.select(".D_en.D_eB")
+        itemname = keys[2]
         if len(itemname) != 0:
-            itemnameout = itemname[0].get_text()
+            itemnameout = itemname
         
         #itemprice
-        itemprice = keys.select(".D_ol .D_cZ")
+        itemprice = keys[3]
         if len(itemprice) != 0:
-            price = str(itemprice[0].get_text())
+            price = str(itemprice)
             price = price.split("S$")
             if len(price) != 0:
                 priceout = price[1]
         
         #itemlink
-        itemlink = keys.select("div > a")
+        itemlink = keys[4]
         if len(itemlink) >=2:
-            link1 = itemlink[1]['href']
-            linkout = "carousell.sg" + link1
+            #link1 = itemlink[1]['href']
+            linkout = "carousell.sg" + itemlink
         
 
         jsonChild.append({
@@ -157,6 +192,7 @@ def find_items(item):
     #transform to dict
     container = json.dumps(container)
     container = json.loads(container)
+    driver.quit()
     return container
 
 if __name__ == '__main__':
