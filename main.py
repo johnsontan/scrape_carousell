@@ -82,7 +82,7 @@ def scrapy_auto_crawl(update, context):
                     outputlist.append(telegram.InlineKeyboardButton(text='STOP', callback_data='1'))
                     reply_markup1 = InlineKeyboardMarkup(build_menu(outputlist, n_cols=1))
                     update.message.reply_text(ss, reply_markup=reply_markup1)
-                time.sleep(60) #set interval
+                time.sleep(600) #set interval
             except:
                 update.message.reply_text("Error, please check your input.")
 
