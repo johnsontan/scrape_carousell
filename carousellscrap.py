@@ -89,7 +89,7 @@ def find_items(item):
     print("scraping carousell..")
     option = Options()
     option.headless = True
-    driver = webdriver.Firefox()
+    driver = webdriver.Firefox(option=option)
 
     #construct item
     print("Item: " + searchitem)
